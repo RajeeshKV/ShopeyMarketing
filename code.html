@@ -41,117 +41,149 @@
     }
   </style>
 <style data-purpose="decorations">
-    /* Subtle curved line effect for callouts */
-    .annotation-arrow {
-      position: absolute;
-      pointer-events: none;
-    }
     .device-shadow {
       box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.15), 0 0 0 1px rgba(15, 23, 42, 0.05);
+    }
+    /* Offset anchor targets so sticky header doesn't cover them */
+    [id] {
+      scroll-margin-top: 88px;
+    }
+    /* Mobile nav drawer */
+    #mobile-menu {
+      display: none;
+    }
+    #mobile-menu.open {
+      display: block;
     }
   </style>
 </head>
 <body class="bg-white text-gray-900 antialiased selection:bg-gray-900 selection:text-white">
 <!-- BEGIN: MainHeader -->
 <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100" data-purpose="site-navigation">
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-<!-- Brand Logo -->
-<a class="flex items-center gap-2.5 group" href="#">
-<img src="logo-large.png" alt="Shopey" class="h-9 w-auto" />
-</a>
-<!-- Center Navigation Links -->
-<nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
-<a class="text-gray-950 font-semibold hover:text-black transition" href="#home">Home</a>
-<a class="hover:text-black transition" href="#features">Features</a>
-<a class="hover:text-black transition" href="#technology">Technology</a>
-<a class="hover:text-black transition" href="#pricing">Pricing</a>
-<a class="hover:text-black transition" href="#faq">FAQ</a>
-<a class="hover:text-black transition" href="#contact">Contact</a>
-</nav>
-<!-- Action Button -->
-<div class="flex items-center gap-3">
-<a class="hidden sm:inline-flex items-center justify-center px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition" href="#contact">
-          Get Your Store
-        </a>
-<a class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-gray-950 rounded-lg shadow hover:bg-gray-800 transition group" href="https://app.shopey.tech" target="_blank" rel="noopener noreferrer">
-          View Live Demo
-          <svg class="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
-<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</a>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+  <!-- Brand Logo -->
+  <a class="flex items-center shrink-0" href="#">
+    <img src="logo-large.png" alt="Shopey" class="h-7 sm:h-9 w-auto" />
+  </a>
+  <!-- Desktop Navigation -->
+  <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 text-sm font-medium text-gray-600">
+    <a class="hover:text-black transition" href="#features">Features</a>
+    <a class="hover:text-black transition" href="#technology">Technology</a>
+    <a class="hover:text-black transition" href="#pricing">Pricing</a>
+    <a class="hover:text-black transition" href="#faq">FAQ</a>
+    <a class="hover:text-black transition" href="#contact">Contact</a>
+  </nav>
+  <!-- Desktop CTAs -->
+  <div class="hidden md:flex items-center gap-3">
+    <a class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition" href="#contact">Get Your Store</a>
+    <a class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-gray-950 rounded-lg hover:bg-gray-800 transition" href="https://app.shopey.tech" target="_blank" rel="noopener noreferrer">
+      View Live Demo
+      <svg class="w-3.5 h-3.5 ml-1.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+  <!-- Mobile: Demo CTA + Hamburger -->
+  <div class="flex md:hidden items-center gap-2">
+    <a class="inline-flex items-center justify-center px-3 py-1.5 text-xs font-semibold text-white bg-gray-950 rounded-lg hover:bg-gray-800 transition" href="https://app.shopey.tech" target="_blank" rel="noopener noreferrer">Demo</a>
+    <button id="hamburger-btn" aria-label="Open menu" aria-expanded="false" class="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition" onclick="toggleMenu()">
+      <svg id="icon-open" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
+      <svg id="icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round"/></svg>
+    </button>
+  </div>
 </div>
+<!-- Mobile Menu Drawer -->
+<div id="mobile-menu" class="md:hidden border-t border-gray-100 bg-white">
+  <nav class="px-4 py-3 flex flex-col gap-1">
+    <a class="py-2.5 px-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 transition" href="#features" onclick="closeMenu()">Features</a>
+    <a class="py-2.5 px-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 transition" href="#technology" onclick="closeMenu()">Technology</a>
+    <a class="py-2.5 px-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 transition" href="#pricing" onclick="closeMenu()">Pricing</a>
+    <a class="py-2.5 px-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 transition" href="#faq" onclick="closeMenu()">FAQ</a>
+    <a class="py-2.5 px-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-50 transition" href="#contact" onclick="closeMenu()">Contact</a>
+    <div class="pt-2 border-t border-gray-100 mt-1">
+      <a class="w-full inline-flex justify-center py-2.5 px-3 text-sm font-semibold text-white bg-gray-950 rounded-lg hover:bg-gray-800 transition" href="#contact" onclick="closeMenu()">Get Your Store</a>
+    </div>
+  </nav>
 </div>
 </header>
+<script>
+  function toggleMenu() {
+    var menu = document.getElementById('mobile-menu');
+    var btn = document.getElementById('hamburger-btn');
+    var iconOpen = document.getElementById('icon-open');
+    var iconClose = document.getElementById('icon-close');
+    var isOpen = menu.classList.contains('open');
+    if (isOpen) {
+      menu.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+      iconOpen.classList.remove('hidden');
+      iconClose.classList.add('hidden');
+    } else {
+      menu.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+      iconOpen.classList.add('hidden');
+      iconClose.classList.remove('hidden');
+    }
+  }
+  function closeMenu() {
+    var menu = document.getElementById('mobile-menu');
+    var btn = document.getElementById('hamburger-btn');
+    var iconOpen = document.getElementById('icon-open');
+    var iconClose = document.getElementById('icon-close');
+    menu.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    iconOpen.classList.remove('hidden');
+    iconClose.classList.add('hidden');
+  }
+</script>
 <!-- END: MainHeader -->
 <main>
 <!-- BEGIN: HeroSection -->
-<section class="pt-10 pb-16 lg:pt-16 lg:pb-24 overflow-hidden border-b border-gray-100" data-purpose="hero-banner" id="home">
+<section class="pt-8 pb-12 lg:pt-16 lg:pb-24 overflow-hidden border-b border-gray-100" data-purpose="hero-banner" id="home">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-<!-- Hero Content (Left) -->
-<div class="lg:col-span-5 text-left space-y-6">
-<!-- Category Tag -->
-<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
-<span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
-              Ready-to-Use Ecommerce Solution
-            </div>
-<!-- Main Heading -->
-<h1 class="text-4xl sm:text-5xl lg:text-[54px] font-extrabold text-gray-950 leading-[1.12] tracking-tight">
-              Launch Your Online Store for <span class="text-gray-950 block sm:inline">₹10,000</span>
-</h1>
-<!-- Subtitle -->
-<p class="text-base sm:text-lg text-gray-600 leading-relaxed max-w-xl">
-              Get a complete, professional ecommerce website for your business. Everything you need to start selling online — with no monthly platform fee.
-            </p>
-<!-- Hero Action Buttons -->
-<div class="flex flex-wrap items-center gap-3 pt-2">
-<a class="inline-flex items-center justify-center px-6 py-3.5 text-sm font-semibold text-white bg-gray-950 rounded-lg shadow-md hover:bg-gray-800 transition group" href="https://app.shopey.tech" target="_blank" rel="noopener noreferrer">
-                View Live Demo
-                <svg class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24">
-<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
-</svg>
-</a>
-<a class="inline-flex items-center justify-center px-6 py-3.5 text-sm font-semibold text-gray-800 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition shadow-sm" href="#pricing">
-                Get Your Store
-              </a>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
+<!-- Hero Content -->
+<div class="lg:col-span-5 text-left space-y-5">
+  <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
+    <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
+    Ready-to-Use Ecommerce Solution
+  </div>
+  <h1 class="text-3xl sm:text-4xl lg:text-[50px] font-extrabold text-gray-950 leading-[1.12] tracking-tight">
+    Launch Your Online Store for <span class="whitespace-nowrap">&#x20B9;10,000</span>
+  </h1>
+  <p class="text-sm sm:text-base text-gray-600 leading-relaxed max-w-lg">
+    Get a complete, professional ecommerce website for your business. Everything you need to start selling online &mdash; with no monthly platform fee.
+  </p>
+  <div class="flex flex-wrap items-center gap-3 pt-1">
+    <a class="inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-white bg-gray-950 rounded-lg shadow-md hover:bg-gray-800 transition" href="https://app.shopey.tech" target="_blank" rel="noopener noreferrer">
+      View Live Demo
+      <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a class="inline-flex items-center justify-center px-5 py-3 text-sm font-semibold text-gray-800 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition shadow-sm" href="#pricing">Get Your Store</a>
+  </div>
+  <div class="pt-2 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium text-gray-700">
+    <div class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>One-time payment</div>
+    <div class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>Lifetime support</div>
+    <div class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>Fully customizable</div>
+  </div>
 </div>
-<!-- Value Props Badges -->
-<div class="pt-4 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-gray-700">
-<div class="flex items-center gap-1.5">
-<svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-<span>One-time payment</span>
-</div>
-<div class="flex items-center gap-1.5">
-<svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-<span>Lifetime support</span>
-</div>
-<div class="flex items-center gap-1.5">
-<svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-<span>Fully customizable</span>
-</div>
-</div>
-</div>
-<!-- Hero Screenshots (Right) -->
-<div class="lg:col-span-7 relative flex justify-center items-end gap-4">
-  <!-- Desktop screenshot -->
-  <div class="w-full max-w-[520px] rounded-xl overflow-hidden border border-gray-200 shadow-2xl bg-white device-shadow">
-    <!-- Browser chrome -->
+<!-- Hero Screenshots -->
+<div class="lg:col-span-7 flex justify-center items-end gap-3 sm:gap-4 mt-4 lg:mt-0">
+  <div class="flex-1 min-w-0 rounded-xl overflow-hidden border border-gray-200 shadow-2xl bg-white device-shadow">
     <div class="bg-gray-100 border-b border-gray-200 px-3 py-2 flex items-center gap-2">
-      <span class="w-2.5 h-2.5 rounded-full bg-red-400 inline-block"></span>
-      <span class="w-2.5 h-2.5 rounded-full bg-yellow-400 inline-block"></span>
-      <span class="w-2.5 h-2.5 rounded-full bg-green-400 inline-block"></span>
-      <span class="ml-2 text-[10px] text-gray-500 font-mono">app.shopey.tech</span>
+      <span class="w-2 h-2 rounded-full bg-red-400 inline-block shrink-0"></span>
+      <span class="w-2 h-2 rounded-full bg-yellow-400 inline-block shrink-0"></span>
+      <span class="w-2 h-2 rounded-full bg-green-400 inline-block shrink-0"></span>
+      <span class="ml-2 text-[10px] text-gray-500 font-mono truncate">app.shopey.tech</span>
     </div>
-    <img src="demo-site-web.png" alt="Shopey storefront – desktop" class="w-full h-auto block" />
+    <img src="demo-site-web.png" alt="Shopey storefront desktop" class="w-full h-auto block" />
   </div>
-  <!-- Mobile screenshot -->
-  <div class="shrink-0 w-28 sm:w-36 rounded-[24px] border-4 border-gray-900 overflow-hidden shadow-2xl bg-gray-900 self-end mb-2">
-    <div class="bg-gray-900 h-4 flex items-center justify-center">
-      <div class="w-12 h-1 rounded-full bg-gray-700"></div>
+  <div class="shrink-0 w-20 sm:w-28 lg:w-32 rounded-[20px] border-[3px] sm:border-4 border-gray-900 overflow-hidden shadow-2xl bg-gray-900 self-end mb-1">
+    <div class="bg-gray-900 h-3 flex items-center justify-center">
+      <div class="w-8 h-0.5 rounded-full bg-gray-700"></div>
     </div>
-    <img src="demo-site-mobile.png" alt="Shopey storefront – mobile" class="w-full h-auto block" />
-    <div class="bg-gray-900 h-3"></div>
+    <img src="demo-site-mobile.png" alt="Shopey storefront mobile" class="w-full h-auto block" />
+    <div class="bg-gray-900 h-2"></div>
   </div>
+</div>
 </div>
 </div>
 </section>
@@ -341,7 +373,7 @@
 </div>
 <h3 class="text-lg font-bold text-gray-950">Your Store. Your Brand.</h3>
 <p class="text-xs sm:text-sm text-gray-600 mt-2 leading-relaxed">
-              We set up your store with your logo, colors and business details. You can manage everything yourself from the admin panel.
+              Your logo, colors and theme are finalised with you before launch. Everything else � banners, products, orders, policies � is fully manageable from the Admin Panel.
             </p>
 <!-- Checklist -->
 <div class="mt-6 space-y-3">
@@ -371,96 +403,103 @@
 <section class="py-16 bg-gray-50/50 border-t border-b border-gray-100" data-purpose="technology-stack" id="technology">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 <div class="text-left mb-10">
-<h2 class="text-2xl sm:text-3xl font-extrabold text-gray-950 tracking-tight">
-            Built with Modern Technology
-          </h2>
-<p class="text-sm text-gray-500 mt-1">
-            A reliable and scalable technology stack used by modern businesses.
-          </p>
+  <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-950 tracking-tight">Built with Modern Technology</h2>
+  <p class="text-sm text-gray-500 mt-1">A reliable and scalable technology stack used by modern businesses.</p>
 </div>
-<!-- Tech Cards Grid -->
-<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3">
-<!-- Tech 1: .NET 8 -->
-<div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:border-gray-300 transition">
-  <div class="w-9 h-9 flex items-center justify-center mb-2">
-    <svg viewBox="0 0 128 128" class="w-8 h-8"><path fill="#512BD4" d="M13.27 59.7c-1.15 0-2.12.4-2.9 1.19-.77.78-1.16 1.74-1.16 2.87 0 1.14.39 2.1 1.16 2.88.78.78 1.75 1.17 2.9 1.17 1.17 0 2.15-.39 2.92-1.17.78-.78 1.17-1.74 1.17-2.88 0-1.13-.39-2.09-1.17-2.87-.77-.79-1.75-1.19-2.92-1.19z"/><path fill="#512BD4" d="M64 9.6C34.1 9.6 9.6 34.1 9.6 64c0 29.9 24.5 54.4 54.4 54.4 29.9 0 54.4-24.5 54.4-54.4C118.4 34.1 93.9 9.6 64 9.6zm-8.85 73.75H43.3L28.1 60.13v23.22H18.95V44.64h11.98l14.6 22.77V44.64h9.62v38.71zm37.26 0H63.37V44.64h28.89v8.3H72.6v7.02h18.6v8.15H72.6v7.19h19.81v8.05zm18.25 0h-9.7V44.64h9.7v38.71z"/></svg>
+<div class="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-3">
+
+  <!-- .NET -->
+  <div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center hover:border-gray-300 hover:shadow-sm transition">
+    <div class="w-8 h-8 flex items-center justify-center mb-2">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v14/icons/dotnet.svg" alt=".NET" class="w-7 h-7" style="filter: invert(27%) sepia(89%) saturate(1200%) hue-rotate(252deg) brightness(80%);" loading="lazy" />
+    </div>
+    <h4 class="text-xs font-bold text-gray-900">.NET 8</h4>
+    <span class="text-[10px] text-gray-400 mt-0.5">Backend</span>
+    <p class="text-[9px] text-gray-500 mt-1 leading-tight hidden sm:block">REST API</p>
   </div>
-  <h4 class="text-xs font-bold text-gray-900">.NET 8</h4>
-  <span class="text-[10px] font-semibold text-gray-400 mt-0.5">Backend</span>
-  <p class="text-[9px] text-gray-500 mt-1 line-clamp-2 leading-tight">Robust and scalable REST API</p>
-</div>
-<!-- Tech 2: Next.js -->
-<div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:border-gray-300 transition">
-  <div class="w-9 h-9 flex items-center justify-center mb-2">
-    <svg viewBox="0 0 128 128" class="w-8 h-8"><circle cx="64" cy="64" r="64" fill="#000"/><path fill="#fff" d="M106.3 99.1L51.5 28H36v72.1h11.6V44.9l49.1 64.9c3.3-3.2 6.4-6.8 9.6-10.7zM80.3 28h11.4v72H80.3z"/></svg>
+
+  <!-- Next.js -->
+  <div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center hover:border-gray-300 hover:shadow-sm transition">
+    <div class="w-8 h-8 flex items-center justify-center mb-2">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v14/icons/nextdotjs.svg" alt="Next.js" class="w-7 h-7" style="opacity:0.85;" loading="lazy" />
+    </div>
+    <h4 class="text-xs font-bold text-gray-900">Next.js</h4>
+    <span class="text-[10px] text-gray-400 mt-0.5">Frontend</span>
+    <p class="text-[9px] text-gray-500 mt-1 leading-tight hidden sm:block">SEO-friendly</p>
   </div>
-  <h4 class="text-xs font-bold text-gray-900">Next.js</h4>
-  <span class="text-[10px] font-semibold text-gray-400 mt-0.5">Frontend</span>
-  <p class="text-[9px] text-gray-500 mt-1 line-clamp-2 leading-tight">Fast, modern and SEO-friendly</p>
-</div>
-<!-- Tech 3: React -->
-<div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:border-gray-300 transition">
-  <div class="w-9 h-9 flex items-center justify-center mb-2">
-    <svg viewBox="0 0 128 128" class="w-8 h-8"><g fill="#61DAFB"><circle cx="64" cy="64" r="11.4"/><path d="M107.3 45.2c-2.2-.8-4.5-1.6-6.9-2.3.6-2.4 1.1-4.8 1.5-7.1 2.1-13-1.2-21.1-9.6-21.1-8 0-17.5 6.7-26.9 18.6-9.4-11.9-18.9-18.6-26.9-18.6-8.4 0-11.7 8.1-9.6 21.1.4 2.3.9 4.7 1.5 7.1-2.4.7-4.7 1.4-6.9 2.3C11.5 50 4.7 56.6 4.7 64s6.8 14 19.3 18.8c2.2.8 4.5 1.6 6.9 2.3-.6 2.4-1.1 4.8-1.5 7.1-2.1 13 1.2 21.1 9.6 21.1 8 0 17.5-6.7 26.9-18.6 9.4 11.9 18.9 18.6 26.9 18.6 8.4 0 11.7-8.1 9.6-21.1-.4-2.3-.9-4.7-1.5-7.1 2.4-.7 4.7-1.4 6.9-2.3 12.5-4.8 19.3-11.4 19.3-18.8s-6.8-14-19.3-18.8zM64 75.5c-3.1-2.8-6-5.9-8.7-9.1 2.8-3.2 5.7-6.2 8.7-9.1 3.1 2.8 6 5.9 8.7 9.1-2.8 3.2-5.7 6.2-8.7 9.1z"/></g></svg>
+
+  <!-- React -->
+  <div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center hover:border-gray-300 hover:shadow-sm transition">
+    <div class="w-8 h-8 flex items-center justify-center mb-2">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v14/icons/react.svg" alt="React" class="w-7 h-7" style="filter: invert(62%) sepia(97%) saturate(400%) hue-rotate(163deg) brightness(95%);" loading="lazy" />
+    </div>
+    <h4 class="text-xs font-bold text-gray-900">React</h4>
+    <span class="text-[10px] text-gray-400 mt-0.5">UI Library</span>
+    <p class="text-[9px] text-gray-500 mt-1 leading-tight hidden sm:block">Component UI</p>
   </div>
-  <h4 class="text-xs font-bold text-gray-900">React</h4>
-  <span class="text-[10px] font-semibold text-gray-400 mt-0.5">UI Library</span>
-  <p class="text-[9px] text-gray-500 mt-1 line-clamp-2 leading-tight">Component based frontend</p>
-</div>
-<!-- Tech 4: Supabase -->
-<div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:border-gray-300 transition">
-  <div class="w-9 h-9 flex items-center justify-center mb-2">
-    <svg viewBox="0 0 128 128" class="w-8 h-8"><defs><linearGradient id="sb-a" x1="53" y1="72" x2="94" y2="30" gradientUnits="userSpaceOnUse"><stop stop-color="#249361"/><stop offset="1" stop-color="#3ECF8E"/></linearGradient></defs><path fill="url(#sb-a)" d="M73.7 120.9c-2.8 3.5-8.6 1.6-8.7-2.9L63.5 64H112c3.8 0 5.9 4.4 3.5 7.3L73.7 120.9z"/><path fill="#3ECF8E" d="M54.3 7.1c2.8-3.5 8.6-1.6 8.7 2.9L64.5 64H16c-3.8 0-5.9-4.4-3.5-7.3L54.3 7.1z"/></svg>
+
+  <!-- Supabase -->
+  <div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center hover:border-gray-300 hover:shadow-sm transition">
+    <div class="w-8 h-8 flex items-center justify-center mb-2">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v14/icons/supabase.svg" alt="Supabase" class="w-7 h-7" style="filter: invert(55%) sepia(80%) saturate(500%) hue-rotate(120deg) brightness(95%);" loading="lazy" />
+    </div>
+    <h4 class="text-xs font-bold text-gray-900">Supabase</h4>
+    <span class="text-[10px] text-gray-400 mt-0.5">Database</span>
+    <p class="text-[9px] text-gray-500 mt-1 leading-tight hidden sm:block">PostgreSQL</p>
   </div>
-  <h4 class="text-xs font-bold text-gray-900">Supabase</h4>
-  <span class="text-[10px] font-semibold text-gray-400 mt-0.5">Database</span>
-  <p class="text-[9px] text-gray-500 mt-1 line-clamp-2 leading-tight">Reliable PostgreSQL infrastructure</p>
-</div>
-<!-- Tech 5: Cloudinary -->
-<div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:border-gray-300 transition">
-  <div class="w-9 h-9 flex items-center justify-center mb-2">
-    <svg viewBox="0 0 128 128" class="w-8 h-8"><circle cx="64" cy="64" r="64" fill="#3448C5"/><path fill="white" d="M97 55.5a18.5 18.5 0 0 0-17.5-24.8 18.4 18.4 0 0 0-15.5 8.5 12.5 12.5 0 0 0-18.7 16.2A15 15 0 1 0 49 85.5h48a15 15 0 0 0 0-30z"/></svg>
+
+  <!-- Cloudinary -->
+  <div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center hover:border-gray-300 hover:shadow-sm transition">
+    <div class="w-8 h-8 flex items-center justify-center mb-2">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v14/icons/cloudinary.svg" alt="Cloudinary" class="w-7 h-7" style="filter: invert(35%) sepia(90%) saturate(600%) hue-rotate(200deg) brightness(90%);" loading="lazy" />
+    </div>
+    <h4 class="text-xs font-bold text-gray-900">Cloudinary</h4>
+    <span class="text-[10px] text-gray-400 mt-0.5">Images</span>
+    <p class="text-[9px] text-gray-500 mt-1 leading-tight hidden sm:block">CDN delivery</p>
   </div>
-  <h4 class="text-xs font-bold text-gray-900">Cloudinary</h4>
-  <span class="text-[10px] font-semibold text-gray-400 mt-0.5">Image Mgt</span>
-  <p class="text-[9px] text-gray-500 mt-1 line-clamp-2 leading-tight">Optimized product &amp; media storage</p>
-</div>
-<!-- Tech 6: Google OAuth -->
-<div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:border-gray-300 transition">
-  <div class="w-9 h-9 flex items-center justify-center mb-2">
-    <svg viewBox="0 0 128 128" class="w-8 h-8"><path fill="#4285F4" d="M64 52.7v23.3h32.5c-1.4 7.5-5.6 13.9-11.9 18.2l19.2 14.9C115.2 98.5 122 83.3 122 64c0-3.8-.3-7.5-.9-11H64v-.3z"/><path fill="#34A853" d="M26.1 77.5 21.8 81l-15 11.7C16.1 110.6 38.6 122 64 122c17.1 0 31.5-5.6 42-15.2L86.6 92c-5.7 3.9-13 6.1-22.6 6.1-17.3 0-31.9-11.7-37.2-27.4z"/><path fill="#FBBC05" d="M6.8 35.3A57.7 57.7 0 0 0 6 64c0 9.9 2.3 19.3 6.8 27.5L27 79.4C25.6 75.2 24.7 70.7 24.7 64s.9-11.2 2.4-15.4L6.8 35.3z"/><path fill="#EA4335" d="M64 26c9.7 0 18.4 3.3 25.2 9.8l19-18.9C96.5 6.6 82.1 0 64 0 38.6 0 16.1 11.4 6.8 28.5L27 41.6C32.1 25.9 46.7 14.2 64 14.2v11.8z"/></svg>
+
+  <!-- Google OAuth -->
+  <div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center hover:border-gray-300 hover:shadow-sm transition">
+    <div class="w-8 h-8 flex items-center justify-center mb-2">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v14/icons/google.svg" alt="Google" class="w-7 h-7" style="filter: invert(35%) sepia(90%) saturate(800%) hue-rotate(10deg) brightness(90%);" loading="lazy" />
+    </div>
+    <h4 class="text-xs font-bold text-gray-900">Google OAuth</h4>
+    <span class="text-[10px] text-gray-400 mt-0.5">Auth</span>
+    <p class="text-[9px] text-gray-500 mt-1 leading-tight hidden sm:block">Secure login</p>
   </div>
-  <h4 class="text-xs font-bold text-gray-900">Google OAuth</h4>
-  <span class="text-[10px] font-semibold text-gray-400 mt-0.5">Auth</span>
-  <p class="text-[9px] text-gray-500 mt-1 line-clamp-2 leading-tight">Secure customer login with Google</p>
-</div>
-<!-- Tech 7: Razorpay -->
-<div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:border-gray-300 transition">
-  <div class="w-9 h-9 flex items-center justify-center mb-2">
-    <svg viewBox="0 0 128 128" class="w-8 h-8"><rect width="128" height="128" rx="16" fill="#072654"/><path fill="#3395FF" d="M37 96l15-60h21L60 76h14L51 96z"/><path fill="white" d="M67 36h18c8 0 14 5 12 14-1.5 7-7 11-15 11H70l-3 11H50zm12 3l-4 15h8c5 0 8-2 9-6 1-4-1-9-8-9h-5z"/></svg>
+
+  <!-- Razorpay -->
+  <div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center hover:border-gray-300 hover:shadow-sm transition">
+    <div class="w-8 h-8 flex items-center justify-center mb-2">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v14/icons/razorpay.svg" alt="Razorpay" class="w-7 h-7" style="filter: invert(25%) sepia(90%) saturate(1000%) hue-rotate(205deg) brightness(85%);" loading="lazy" />
+    </div>
+    <h4 class="text-xs font-bold text-gray-900">Razorpay</h4>
+    <span class="text-[10px] text-gray-400 mt-0.5">Payments</span>
+    <p class="text-[9px] text-gray-500 mt-1 leading-tight hidden sm:block">UPI, cards &amp; more</p>
   </div>
-  <h4 class="text-xs font-bold text-gray-900">Razorpay</h4>
-  <span class="text-[10px] font-semibold text-gray-400 mt-0.5">Payments</span>
-  <p class="text-[9px] text-gray-500 mt-1 line-clamp-2 leading-tight">UPI, cards, net banking &amp; more</p>
-</div>
-<!-- Tech 8: Brevo -->
-<div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:border-gray-300 transition">
-  <div class="w-9 h-9 flex items-center justify-center mb-2">
-    <svg viewBox="0 0 128 128" class="w-8 h-8"><rect width="128" height="128" rx="16" fill="#0092FF"/><path fill="white" d="M32 40h64v8H32zm0 20h64v8H32zm0 20h40v8H32z"/></svg>
+
+  <!-- Brevo -->
+  <div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center hover:border-gray-300 hover:shadow-sm transition">
+    <div class="w-8 h-8 flex items-center justify-center mb-2">
+      <img src="https://cdn.jsdelivr.net/npm/simple-icons@v14/icons/brevo.svg" alt="Brevo" class="w-7 h-7" style="filter: invert(45%) sepia(90%) saturate(600%) hue-rotate(170deg) brightness(90%);" loading="lazy" />
+    </div>
+    <h4 class="text-xs font-bold text-gray-900">Brevo</h4>
+    <span class="text-[10px] text-gray-400 mt-0.5">Email</span>
+    <p class="text-[9px] text-gray-500 mt-1 leading-tight hidden sm:block">Transactional</p>
   </div>
-  <h4 class="text-xs font-bold text-gray-900">Brevo</h4>
-  <span class="text-[10px] font-semibold text-gray-400 mt-0.5">Email</span>
-  <p class="text-[9px] text-gray-500 mt-1 line-clamp-2 leading-tight">Transactional emails &amp; marketing</p>
-</div>
-<!-- Tech 9: SMS API -->
-<div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center shadow-xs hover:border-gray-300 transition">
-  <div class="w-9 h-9 flex items-center justify-center mb-2">
-    <svg viewBox="0 0 128 128" class="w-8 h-8"><rect width="128" height="128" rx="16" fill="#1a1a1a"/><path fill="white" d="M24 28h80a8 8 0 0 1 8 8v44a8 8 0 0 1-8 8H72l-16 16V88H24a8 8 0 0 1-8-8V36a8 8 0 0 1 8-8zm12 26a6 6 0 1 0 0-12 6 6 0 0 0 0 12zm28 0a6 6 0 1 0 0-12 6 6 0 0 0 0 12zm28 0a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg>
+
+  <!-- SMS -->
+  <div class="bg-white border border-gray-200 rounded-xl p-3 flex flex-col items-center text-center hover:border-gray-300 hover:shadow-sm transition">
+    <div class="w-8 h-8 flex items-center justify-center mb-2">
+      <svg class="w-7 h-7 text-gray-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h4 class="text-xs font-bold text-gray-900">SMS</h4>
+    <span class="text-[10px] text-gray-400 mt-0.5">Notifications</span>
+    <p class="text-[9px] text-gray-500 mt-1 leading-tight hidden sm:block">2Factor, MSG91 &amp; more</p>
   </div>
-  <h4 class="text-xs font-bold text-gray-900">SMS API</h4>
-  <span class="text-[10px] font-semibold text-gray-400 mt-0.5">SMS Support</span>
-  <p class="text-[9px] text-gray-500 mt-1 line-clamp-2 leading-tight">Configurable SMS (MSG91, Twilio)</p>
-</div>
+
 </div>
 </div>
 </section>
@@ -594,7 +633,7 @@
 </span>
 </summary>
 <p class="text-xs sm:text-sm text-gray-600 mt-3 leading-relaxed">
-              Yes. We do the initial setup with your brand identity, and you have complete control inside the Admin Panel to update banners, categories, colors, social links, and legal policies anytime.
+              Your logo, color scheme and overall theme are finalised with you before deployment � we set it all up exactly as agreed. Once live, everything else (banners, categories, social links, legal policies and more) is fully configurable from the Admin Panel without any technical help.
             </p>
 </details>
 <details class="group bg-white p-5 rounded-xl border border-gray-200 shadow-xs">
