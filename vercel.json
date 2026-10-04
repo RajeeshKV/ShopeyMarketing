@@ -1,6 +1,5 @@
 {
-  "rewrites": [
-    { "source": "/", "destination": "/code.html" },
-    { "source": "/(.*)", "destination": "/code.html" }
-  ]
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "installCommand": ""
 }
